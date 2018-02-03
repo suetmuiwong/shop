@@ -1,100 +1,133 @@
 const userInfoService = require('./../services/user-info')
 const errorCode = require('./../codes/error')
+const ccap = require('ccap')();
 
 module.exports = {
 
   /**
    * 登录操作
-   * @param  {obejct} ctx 上下文对象
+   * @param  {obejct} ctx 上下文对象 
    */
 
 
   async signIn(ctx) {
-    let formData = ctx.request.body
 
-  
+    let formData = ctx.request.body
     let result = {}
     let userResult = await userInfoService.signIn(formData)
-    if (userResult) {
-      if (formData.userName === userResult.name) {
-        ctx.response.status = 200;
-        result.success = true
-        let session = ctx.session
-        session.isLogin = true
-        session.userName = userResult.name
-        session.userId = userResult.id
-       
-        ctx.body = result
+
+    if (ctx.session.captcha.toUpperCase() == formData.pin.toUpperCase()) {
+
+      if (userResult) {
+        if (formData.userName === userResult.name) {
+          ctx.response.status = 200;
+          result.success = true
+          ctx.session.isLogin = true
+          ctx.session.userName = userResult.name
+          ctx.session.userId = userResult.id
+
+          ctx.body = result
+        } else {
+          ctx.response.status = 500;
+          result.error = '008'
+          result.error_description = errorCode['008']
+          ctx.body = result
+        }
       } else {
         ctx.response.status = 500;
-        result.error = '008'
-        result.error_description = errorCode['008']
+        result.error = '006',
+          result.error_description = errorCode['006']
         ctx.body = result
       }
+
     } else {
       ctx.response.status = 500;
-      result.error = '006',
-      result.error_description = errorCode['006']
+      result.error = '017',
+      result.error_description = errorCode['017']
       ctx.body = result
     }
 
 
   },
 
+
+  /**
+  * 验证码
+  * @param  {obejct} ctx 上下文对象
+  * npm install ccap --save
+  */
+  async pin(ctx) {
+
+    let ary = ccap.get();
+    let txt = ary[0];
+    let buf = ary[1];
+    let session = ctx.session;
+    ctx.response.status = 200;
+    ctx.body = buf;
+    ctx.type = 'image/png';
+    ctx.session.captcha = txt;
+
+  },
+
+
+
+
+
   /**
    * 注册操作
    * @param   {obejct} ctx 上下文对象
    */
   async signUp(ctx) {
+
     let formData = ctx.request.body
-    let result = {
-      success: false,
-      message: '',
-      data: null
-    }
-
-    let validateResult = userInfoService.validatorSignUp(formData)
-
-    if (validateResult.success === false) {
-      result = validateResult
-      ctx.body = result
-      return
-    }
+    let result = {}
 
     let existOne = await userInfoService.getExistOne(formData)
-    console.log(existOne)
-
+ 
     if (existOne) {
-      if (existOne.name === formData.userName) {
-        result.message = errorCode.FAIL_USER_NAME_IS_EXIST
+      if (existOne.name === formData.userName) { 
+        ctx.response.status = 500;
+        result.success = false
+        result.error = '009',
+        result.error_description = errorCode['009']
         ctx.body = result
         return
       }
       if (existOne.email === formData.email) {
-        result.message = errorCode.FAIL_EMAIL_IS_EXIST
+        ctx.response.status = 500;
+        result.success = false
+        result.error = '013',
+        result.error_description = errorCode['013']
         ctx.body = result
         return
       }
+    }else{
+      let userResult = await userInfoService.create({
+        email: formData.email,
+        password: formData.password,
+        name: formData.userName,
+        create_time: new Date().getTime(),
+        level: 1,
+      })
+  
+      if (userResult && userResult.insertId * 1 > 0) {
+        ctx.response.status = 200;
+        result.success = true
+        ctx.body = result
+      } else {
+        ctx.response.status = 500;
+        result.success = false
+        result.error = '002',
+        result.error_description = errorCode['002']
+        ctx.body = result
+      }
+  
+  
+
     }
 
 
-    let userResult = await userInfoService.create({
-      email: formData.email,
-      password: formData.password,
-      name: formData.userName,
-      create_time: new Date().getTime(),
-      level: 1,
-    })
 
-    console.log(userResult)
-
-    if (userResult && userResult.insertId * 1 > 0) {
-      result.success = true
-    } else {
-      result.message = errorCode.ERROR_SYS
-    }
-
-    ctx.body = result
   },
 
   /**
@@ -104,13 +137,10 @@ module.exports = {
   async getLoginUserInfo(ctx) {
 
 
-    
+
     let session = ctx.session
     let isLogin = session.isLogin
     let userName = session.userName
-    console.log('*****************************888')
-    console.log('session=', session)
-
     let result = {
       success: false,
       message: '',
@@ -129,27 +159,6 @@ module.exports = {
     }
 
     ctx.body = result
-  },
-
-  /**
-   * 校验用户是否登录
-   * @param  {obejct} ctx 上下文对象
-   */
-  validateLogin(ctx) {
-    let result = {
-      success: false,
-      message: errorCode.FAIL_USER_NO_LOGIN,
-      data: null,
-      code: 'FAIL_USER_NO_LOGIN',
-    }
-    let session = ctx.session
-    console.log(session)
-    if (session && session.isLogin === true) {
-      result.success = true
-      result.message = ''
-      result.code = ''
-    }
-    return result
   }
 
 

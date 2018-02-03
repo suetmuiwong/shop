@@ -14,6 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "busboy": "^0.2.14",
+    "ccap": "^0.6.10",
     "co": "^4.6.0",
     "debug": "^2.6.0",
     "koa": "^2.0.0",

@@ -9,6 +9,7 @@ const orderInfoController = require('./../controllers/order-info')
 const appealInfoController = require('./../controllers/appeal-info')
 
 const routers = router
+  .get('/user/signInPin.json',userInfoController.pin)
   .get('/user/getUserInfo.json', userInfoController.getLoginUserInfo)
   .post('/user/signIn.json', userInfoController.signIn)
   .post('/user/signUp.json', userInfoController.signUp)

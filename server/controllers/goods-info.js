@@ -66,7 +66,7 @@ module.exports = {
       if (goodsDetail) {
         ctx.response.status = 200;
         result.success = true
-        result.data = goodsDetail
+        result.list = goodsDetail
         ctx.body = result
 
       } else {

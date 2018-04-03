@@ -3,16 +3,16 @@
  */
 
 const router = require('koa-router')()
-const userInfoController = require('./../controllers/user-info')
+//const userInfoController = require('./../controllers/user-info')
 const goodsInfoController = require('./../controllers/goods-info')
 const orderInfoController = require('./../controllers/order-info')
 const appealInfoController = require('./../controllers/appeal-info')
 
 const routers = router
-  .get('/user/signInPin.json',userInfoController.pin)
-  .get('/user/getUserInfo.json', userInfoController.getLoginUserInfo)
-  .post('/user/signIn.json', userInfoController.signIn)
-  .post('/user/signUp.json', userInfoController.signUp)
+  // .get('/user/signInPin.json',userInfoController.pin)
+  // .get('/user/getUserInfo.json', userInfoController.getLoginUserInfo)
+  // .post('/user/signIn.json', userInfoController.signIn)
+  // .post('/user/signUp.json', userInfoController.signUp)
  
   .post('/goods/goodsList.json', goodsInfoController.goodsList)
   .post('/goods/goodsDetail.json', goodsInfoController.goodsDetail)

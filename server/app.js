@@ -10,6 +10,9 @@ const MysqlStore = require('koa-mysql-session')
 const config = require('./../config')
 const routers = require('./routers/index')
 
+const passport = require('./passport') //用于验证登录
+
+
 const app = new Koa()
 
 // 配置存储session信息的mysql
@@ -19,7 +22,6 @@ const sessionMysqlConfig= {
   database: config.database.DATABASE,
   host: config.database.HOST,
 }
-
 
 
 // 配置session中间件
@@ -34,6 +36,11 @@ app.use(session({
     overwrite: false        // 是否允许重写
   }
 }))
+
+//增加验证登录
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 
 // app.use( async ( ctx ) => {

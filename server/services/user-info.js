@@ -24,9 +24,12 @@ const user = {
    * @return {object|null}      查找结果
    */
   async getExistOne( formData ) {
+  
     let resultData = await userModel.getExistOne({
+      'name': formData.userName,
       'email': formData.email,
-      'name': formData.userName
+      'password':formData.password
+     
     })
     return resultData
   },

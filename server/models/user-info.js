@@ -18,6 +18,7 @@ const user = {
    * @return {object|null}        查找结果
    */
   async getExistOne(options ) {
+
     let _sql = `
     SELECT * from user_info
       where email="${options.email}" or name="${options.name}"

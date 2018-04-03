@@ -122,11 +122,7 @@ module.exports = {
         ctx.body = result
       }
   
-  
-
     }
-
-
 
   },
 
@@ -139,6 +135,8 @@ module.exports = {
 
 
     let session = ctx.session
+    console.log('测试session')
+    console.log(session)
     let isLogin = session.isLogin
     let userName = session.userName
     let result = {

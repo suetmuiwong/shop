@@ -4,7 +4,7 @@
  */
 
 const router = require('koa-router')()
-const passport = require('../passport') //用于验证登录
+//const passport = require('../passport') //用于验证登录
 const userInfoController = require('./../controllers/user-info')
 const api = require('./api')
 
@@ -19,21 +19,7 @@ router.post('/user/signUp.json', userInfoController.signUp)
  * 认证登录
  */
 router.get('/user/signInPin.json',userInfoController.pin) // 登录时的图形验证码
-router.post('/user/signIn.json', function (ctx, next) {
-    return passport.authenticate('local', function (err, user, info, status) {
-        console.log('测试登录权限问题')
-        console.log(passport)
-        console.log(err)
-        console.log(user)
-        console.log(info)
-        console.log(status)
-        if (user) {
-            userInfoController.signIn
-        } else {
-            ctx.body = info
-        }
-    })(ctx, next)
-})
+router.post('/user/signIn.json',userInfoController.signIn)
 
 /**
  * 认证登出
@@ -43,20 +29,6 @@ router.get('/user/logout.json', function (ctx, next) {
     // ctx.body = '001'
 })
 
-
-/**
- * 中间文件，统一自定义需要身份认证的路由
- */
-router.use('/api/*', (ctx, next) => {
-    if(ctx.isAuthenticated()) {
-      next()
-    } else {
-     ctx.status = 401
-     ctx.body = {
-       msg: 'auth fail'
-     }
-   }
- })
 
  /**
   * 定义中转路径

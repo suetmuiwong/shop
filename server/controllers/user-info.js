@@ -1,6 +1,14 @@
 const userInfoService = require('./../services/user-info')
+const tokenInfoService = require('./../services/token-info')
 const errorCode = require('./../codes/error')
 const ccap = require('ccap')();
+
+//加密
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+
+const config = require('../../config')
+
 
 module.exports = {
 
@@ -15,13 +23,23 @@ module.exports = {
     let formData = ctx.request.body
     let result = {}
     let userResult = await userInfoService.signIn(formData)
+    let userdata = await tokenInfoService.checkToken('token');
+    console.log('444444')
+    console.log(ctx.session)
+    console.log(ctx.session.captcha.toUpperCase())
+    console.log(formData.pin.toUpperCase())
 
     if (ctx.session.captcha.toUpperCase() == formData.pin.toUpperCase()) {
 
       if (userResult) {
         if (formData.userName === userResult.name) {
+          //新增获取session登录成功返回token
+          let userResult = await userInfoService.signIn(formData)
+          const token = base.signToke(user)
           ctx.response.status = 200;
-          result.success = true
+          result.success = true;
+          result.token= token;
+          
           ctx.session.isLogin = true
           ctx.session.userName = userResult.name
           ctx.session.userId = userResult.id
@@ -75,12 +93,17 @@ module.exports = {
 
   /**
    * 注册操作
-   * @param   {obejct} ctx 上下文对象
+   * @param   {obejct} ctx 上下文对象 
+   * 
+   * 增加，token写入
    */
   async signUp(ctx) {
+    console.log('注册信息')
+    console.log(ctx)
 
     let formData = ctx.request.body
     let result = {}
+
 
     let existOne = await userInfoService.getExistOne(formData)
  
@@ -102,8 +125,20 @@ module.exports = {
         return
       }
     }else{
+      //token 写入
+
+     
+        const hmac = crypto.createHmac('sha256', config.secret_key)
+        let nowHmac = hmac.update(Date.now().toString())
+        let fHmac = nowHmac.digest('hex')
+        // config.secret_key = fHmac
+         console.log('token写入')
+         console.log(fHmac)
+ 
+
       let userResult = await userInfoService.create({
         email: formData.email,
+        token:fHmac,
         password: formData.password,
         name: formData.userName,
         create_time: new Date().getTime(),
@@ -114,6 +149,7 @@ module.exports = {
         ctx.response.status = 200;
         result.success = true
         ctx.body = result
+
       } else {
         ctx.response.status = 500;
         result.success = false
@@ -127,12 +163,10 @@ module.exports = {
   },
 
   /**
-   * 获取用户信息
+   * 获取用户的token信息
    * @param    {obejct} ctx 上下文对象
    */
-  async getLoginUserInfo(ctx) {
-
-
+  async getUserToken(ctx) {
 
     let session = ctx.session
     console.log('测试session')

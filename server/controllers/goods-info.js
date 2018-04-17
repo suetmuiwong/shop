@@ -10,6 +10,10 @@ module.exports = {
     let session = ctx.session
     let result = {}
 
+    const user = await base.checkToken(ctx, User, true)
+
+      //token: base.signToke(user)
+
     if (ctx.session && ctx.session.isLogin && ctx.session.userName) {
 
       let params = ctx.request.body

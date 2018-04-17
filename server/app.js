@@ -10,7 +10,16 @@ const MysqlStore = require('koa-mysql-session')
 const config = require('./../config')
 const routers = require('./routers/index')
 
-const passport = require('./passport') //用于验证登录
+//const passport = require('./passport') //用于验证登录
+
+//token
+// const jwt = require('jsonwebtoken')
+// const jwtKoa = require('koa-jwt')
+const jwt = require('koa-jwt')
+// console.log('22222222')
+// console.log(jwt)
+//console.log(jwtKoa)
+
 
 
 const app = new Koa()
@@ -37,37 +46,11 @@ app.use(session({
   }
 }))
 
+
 //增加验证登录
-app.use(passport.initialize())
-app.use(passport.session())
-
-
-
-// app.use( async ( ctx ) => {
-
-//   // 设置session
-//   if ( ctx.url === '/api/user/signIn.json' ) {
-//     console.log('登录地址')
-//       ctx.session = {
-//           user_id: Math.random().toString(36).substr(2),
-//           count: 0
-//       }
-//       ctx.body = ctx.session
-//       console.log(ctx.session)
-//   } else{
-//     console.log('其他地址')
-//     console.log(ctx.session)
-//     console.log(ctx)
-//     console.log( ctx.request)
-//     console.log(ctx.response)
-
-//       // 读取session信息
-//       ctx.session.count = ctx.session.count + 1
-//       ctx.body = ctx.session
-//   }
-
-// })
-
+//app.use(passport.initialize())
+//app.use(passport.session())
+app.use(jwt({secret: config.jwt_secret}).unless({path:[/^\/user\/signInPin.json/,/^\/user\/signIn.json/, /^\/user\/signUp.json/]}))
 
 
 

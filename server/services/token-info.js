@@ -3,17 +3,30 @@
  */
 
 const validator = require('validator')
-const userModel = require('./../models/user-info')
+const tokenModel = require('./../models/token-info')
 const userCode = require('./../codes/error')
 
-const user = {
+
+
+const token = {
   /**
-   * 获取token值
-   * @param pin 当前验证码
+   * 检查用户的token信息
+   * @param token 当前token
    */
-  async getToken(pin){
-    let result = await userModel.getExistToken(pin);
-    return result;
+  async checkToken(token){
+        const secret = tokenModel.GetHmac()
+        console.log('checkToken')
+        console.log(secret)
+        //console.log('secret', secret)
+        // const user = await this.findOneAndUpdate({ _id: token.id }, { app_secret: secret })
+        // if(token.secret == user.app_secret){
+        //     user.app_secret = secret
+        //     //console.log('user user: ', user)
+        //     return user
+        // }else{
+        //     throw new Error('token验证未通过！')
+        // }
+ 
   },
 
   /**
@@ -22,7 +35,7 @@ const user = {
    * @return {object}      创建结果
    */
   async create( user ) {
-    let result = await userModel.create(user)
+    let result = await tokenModel.create(user)
     return result
   },
 
@@ -33,7 +46,7 @@ const user = {
    */
   async getExistOne( formData ) {
   
-    let resultData = await userModel.getExistOne({
+    let resultData = await tokenModel.getExistOne({
       'name': formData.userName,
       'email': formData.email,
       'password':formData.password
@@ -48,7 +61,7 @@ const user = {
    * @return {object}          登录业务操作结果
    */
   async signIn( formData ) {
-    let resultData = await userModel.getOneByUserNameAndPassword({
+    let resultData = await tokenModel.getOneByUserNameAndPassword({
       'password': formData.password,
       'name': formData.userName})
     return resultData
@@ -62,7 +75,7 @@ const user = {
    */
   async getUserInfoByUserName( userName ) {
     
-    let resultData = await userModel.getUserInfoByUserName( userName ) || {}
+    let resultData = await tokenModel.getUserInfoByUserName( userName ) || {}
     let userInfo = {
       // id: resultData.id,
       email: resultData.email,
@@ -109,4 +122,4 @@ const user = {
 
 }
 
-module.exports = user
+module.exports = token

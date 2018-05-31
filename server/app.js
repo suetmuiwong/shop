@@ -43,14 +43,7 @@ app.use(async(ctx, next) => {
 
 // routes
 fs.readdirSync(path.join(__dirname, 'routes')).forEach(function (file) {
-    //test
-    console.log('测试测试')
-    console.log(file)
-    console.log(~file)
-    if (file.indexOf('.js')) {
-      console.log('111')
-      console.log(require(path.join(__dirname, 'routes', file)))
-      console.log('8888')
+    if (file == "index.js") {
       app.use(require(path.join(__dirname, 'routes', file)).routes());
     }
 });

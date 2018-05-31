@@ -87,7 +87,7 @@ const user = {
    * @return {object}       mysql执行结果
    */
   async create(model) {
-    let result = await dbUtils.insertData('user_info', model)
+    let result = await dbUtils.insertData('user', model)
     return result
   },
 
@@ -99,7 +99,7 @@ const user = {
   async getExistOne(options) {
 
     let _sql = `
-    SELECT * from user_info
+    SELECT * from user
       where email="${options.email}" or name="${options.name}"
       limit 1`
     let result = await dbUtils.query(_sql)
@@ -118,7 +118,7 @@ const user = {
    */
   async getOneByUserNameAndPassword(options) {
     let _sql = `
-    SELECT * from user_info
+    SELECT * from user
       where password="${options.password}" and name="${options.name}"
       limit 1`
     let result = await dbUtils.query(_sql)
@@ -138,7 +138,7 @@ const user = {
   async getUserInfoByUserName(userName) {
 
     let result = await dbUtils.select(
-      'user_info',
+      'user',
       ['id', 'email', 'name', 'detail_info', 'create_time', 'modified_time', 'modified_time'])
     if (Array.isArray(result) && result.length > 0) {
       result = result[0]

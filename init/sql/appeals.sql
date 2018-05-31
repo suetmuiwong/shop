@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `appeal_info`(
+CREATE TABLE IF NOT EXISTS `appeal`(
   `appealId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `appealTime` varchar(255) NOT NULL,
   `appealOrder` varchar(255) NOT NULL,

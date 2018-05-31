@@ -15,3 +15,5 @@ router.get('/logout', function (ctx, next) { //认证登出
     ctx.logout()
     // ctx.body = '001'
 })
+
+module.exports = router;

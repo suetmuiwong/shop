@@ -11,7 +11,7 @@
     # 初始化数据库 安装MySQL5.6以上版本
     # 创建数据库 创建命令 create database shop; 
     # 配置项目 config.js 文件   
-    # 安装依赖 命令 cnpm install
+    # 安装依赖 命令 npm install
     # 数据库初始化 命令 npm run init_sql
     # 启动服务 命令 npm run start_server
 

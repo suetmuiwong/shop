@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `order_info`(
+CREATE TABLE IF NOT EXISTS `orders`(
     `orderId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `orderNo` varchar(200) NOT NULL,
     `orderStatus` int(4) NOT NULL,

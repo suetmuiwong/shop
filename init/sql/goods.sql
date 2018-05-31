@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `goods_info`(
+CREATE TABLE IF NOT EXISTS `goods`(
      `goodsId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
      `goodsName` varchar(200) NOT NULL,
      `goodsImage` varchar(32) NOT NULL,

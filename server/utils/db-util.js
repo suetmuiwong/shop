@@ -1,4 +1,4 @@
-const allConfig = require("./../../config")
+const allConfig = require('../config/environment');
 const config = allConfig.database
 const mysql = require("mysql")
 

@@ -19,7 +19,7 @@
 
 # 注册接口
 
-  # url:http://localhost:3001/api/user/signUp.json
+  # url:http://localhost:3001/api/user/signUp
   # 参数：userName，email，password，confirmPassword，agreement
 
 

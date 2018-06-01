@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const session = require('koa-session-minimal')
 const MysqlStore = require('koa-mysql-session')
+const cors = require('koa2-cors') //允许跨域的中间件
 
 const app = require('./config/koa');
 const config = require('./config/environment');
@@ -34,23 +35,37 @@ app.use(session({
 }))
 
 
+//允许跨域
+// app.use(cors())
 
-app.use(async(ctx, next) => {
-  ctx.execSql = query;
-  ctx.set('Access-Control-Allow-Origin', config.accessControlAllowOrigin);
-  await next();
-});
+app.use(cors({
+  origin: function (ctx) {
+      return ctx.header.origin 
+  },
+  credentials:true
+}))
+
+
+
+// app.use(async(ctx, next) => {
+//  // ctx.execSql = query;
+//   ctx.set('Access-Control-Allow-Origin', config.accessControlAllowOrigin);
+//   await next();
+// });
 
 // routes
-fs.readdirSync(path.join(__dirname, 'routes')).forEach(function (file) {
-    if (file == "index.js") {
-      app.use(require(path.join(__dirname, 'routes', file)).routes());
-    }
-});
+// fs.readdirSync(path.join(__dirname, 'routes')).forEach(function (file) {
+//     if (file == "index.js") {
+//       console.log('&&&&&&&&&&&&&&&&&&&&测试测试')
+//       app.use(require(path.join(__dirname, 'routes', file)).routes());
+//     }
+// });
 
-app.use(function (ctx, next) {
-   ctx.redirect('/404.html');
-});
+app.use(require(path.join(__dirname, 'routes', 'index.js')).routes());
+
+// app.use(function (ctx, next) {
+//    ctx.redirect('/404.html');
+// });
 
 app.on('error', (error, ctx) => {
   console.log('something error ' + JSON.stringify(ctx.onerror));

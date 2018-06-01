@@ -53,10 +53,26 @@ let insertData = function( table, values ) {
   return query( _sql, [ table, values ] )
 }
 
-let updateData = function( table, values, id ) {
-  let _sql = "UPDATE ?? SET ? WHERE id = ?"
-  return query( _sql, [ table, values, id ] )
+// let updateData = function( table, values, id ) {
+//   let _sql = "UPDATE ?? SET ? WHERE id = ?"
+//   console.log('222222222')
+//   console.log(values)
+//   console.log(id)
+//   return query( _sql, [ table, values, id ] )
+
+// }
+
+let updateData = function( table, keys, values, id ) {
+  let _sql = "UPDATE ?? SET ? = ? WHERE id = ?"
+  console.log('222222222')
+  console.log(values)
+  console.log(id)
+
+  //UPDATE user SET hashedPassword = ? WHERE id = ?
+  return query( _sql, [ table,keys,values, id ] )
+
 }
+
 
 let deleteDataById = function( table, key, value ) {
   let _sql = "DELETE FROM ?? WHERE ?? = ?"

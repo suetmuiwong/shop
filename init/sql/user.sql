@@ -11,7 +11,7 @@ CREATE TABLE   IF NOT EXISTS  `user` (
 
 -- INSERT INTO `user` set userName ='admin', hashedPassword='123456';
 
-INSERT INTO `user` (userName,hashedPassword) value('admin','123456');
+-- INSERT INTO `user` (userName,hashedPassword,role) value('admin','123456','ADMIN');
 
 -- INSERT INTO `user` set name='admin', password='123456';
 

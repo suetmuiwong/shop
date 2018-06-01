@@ -15,11 +15,11 @@
     # 数据库初始化 命令 npm run init_sql
     # 启动服务 命令 npm run start_server
 
-#接口访问地址： http://localhost:3001/api/
+#接口访问地址： http://localhost:9000/shopapi/
 
 # 注册接口
 
-  # url:http://localhost:3001/api/user/signUp
+  # url:http://localhost:9000/shopapi/user/signUp
   # 参数：userName，email，password，confirmPassword，agreement
 
 

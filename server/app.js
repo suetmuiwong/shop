@@ -37,7 +37,6 @@ app.use(session({
 
 //允许跨域
 // app.use(cors())
-
 app.use(cors({
   origin: function (ctx) {
       return ctx.header.origin 

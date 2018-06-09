@@ -15,10 +15,13 @@ if (config.isUpdateAdmin) {
 
 const app = new Koa();
 
+//console.log('&&&&&&')
+//console.log(path.join(config.root, config.appPath))
+
 app.use(tokenError());
 app.use(bodyParser());
 app.use(koaJson());
-app.use(resource(path.join(config.root, config.appPath)));
+//app.use(resource(path.join(config.root, config.appPath)));
 app.use(jwt({
   secret: config.tokenSecret
 }).unless({ //不用验证的接口

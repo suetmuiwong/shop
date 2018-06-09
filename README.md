@@ -15,12 +15,19 @@
     # 数据库初始化 命令 npm run init_sql
     # 启动服务 命令 npm run start_server
 
-#接口访问地址： http://localhost:9000/shopapi/
+#接口访问地址： http://127.0.0:9000/shopapi/
 
 # 注册接口
 
-  # url:http://localhost:9000/shopapi/user/signUp
-  # 参数：userName，email，password，confirmPassword，agreement
+ 
+
+#用户
+  # url:http://127.0.0:9000/shopapi/user/signIn 参数eg：userName = admin password = 123456  verify = abcd
+  # url:http://127.0.0:9000/shopapi/user/signUp 参数：userName password
+
+
+#获取商品列表接口
+  # url:http://127.0.0:9000/shopapi/user/signIn
 
 
 

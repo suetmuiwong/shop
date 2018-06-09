@@ -46,11 +46,11 @@ app.use(cors({
 
 
 
-// app.use(async(ctx, next) => {
-//  // ctx.execSql = query;
-//   ctx.set('Access-Control-Allow-Origin', config.accessControlAllowOrigin);
-//   await next();
-// });
+ //app.use(async(ctx, next) => {
+  // ctx.execSql = query;
+  //ctx.set('Access-Control-Allow-Origin', config.accessControlAllowOrigin);
+ // await next();
+//});
 
 // routes
 // fs.readdirSync(path.join(__dirname, 'routes')).forEach(function (file) {

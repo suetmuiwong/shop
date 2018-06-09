@@ -1,4 +1,4 @@
-
+const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const helper = require('./../../utils/helper');
 const config = require('./../../config/environment');
@@ -87,68 +87,67 @@ module.exports = {
     // }
 
 
+    let formData = ctx.request.body,
+    userName = formData.userName,
+    password = formData.password;
 
-    let userName = ctx.request.body.userName || '',
-    password = ctx.request.body.password || '';
+
   if (!userName || !password) {
+    ctx.response.status = 500;
     ctx.body = {
       success: 0,
-      message: '用户名或密码不能为空'
+      message:errorCode['001']  
     };
     return;
   }
 
   try {
     //let results = await ctx.execSql(`SELECT id, hashedPassword, salt FROM user WHERE role='ADMIN' and userName = ?`, userName);
-    if (results.length > 0) {
-      let hashedPassword = results[0].hashedPassword,
-        salt = results[0].salt,
+    
+    let results = await userInfoService.signIn(formData)
+    if (results) {
+      let hashedPassword = results.hashedPassword,
+        salt = results.salt,
         hashPassword = helper.encryptPassword(password, salt);
       if (hashedPassword === hashPassword) {
         ctx.session.user = userName;
         // 用户token
         const userToken = {
           name: userName,
-          id: results[0].id
+          id: results.id
         };
         // 签发token
         const token = jwt.sign(userToken, config.tokenSecret, { expiresIn: '2h' });
+        ctx.response.status = 200;
         ctx.body = {
           success: 1,
           token: token,
-          message: ''
+          message:errorCode['000']
         };
       } else {
+        ctx.response.status = 500;
         ctx.body = {
           success: 0,
-          message: '用户名或密码错误'
+          message: errorCode['008']
         };
       }
     } else {
+      ctx.response.status = 500;
       ctx.body = {
         success: 0,
-        message: '用户名或密码错误'
+        message: errorCode['008']
       };
     }
   } catch (error) {
     console.log(error);
+    ctx.response.status = 500;
     ctx.body = {
       success: 0,
-      message: '查询数据出错'
+      message: errorCode['002']
     };
   }
 
-
-
-
-
-
-
-
   },
-
-
-
 
 
   /**
@@ -158,67 +157,70 @@ module.exports = {
    * 增加，token写入
    */
   async signUp(ctx) {
-    console.log('注册信息')
-    console.log(ctx)
+ 
+    let formData = ctx.request.body,
+    userName = formData.userName,
+    password = formData.password;
 
-    let formData = ctx.request.body
-    let result = {}
-
+    if (!userName || !password) {
+      ctx.response.status = 500;
+      ctx.body = {
+        success: 0,
+        message:errorCode['001']  
+      };
+      return;
+    }
+   
+    try {
 
     let existOne = await userInfoService.getExistOne(formData)
 
     if (existOne) {
-      if (existOne.name === formData.userName) {
+      if (existOne.userName === formData.userName) {
         ctx.response.status = 500;
-        result.success = false
-        result.error = '009',
-          result.error_description = errorCode['009']
-        ctx.body = result
+        ctx.body = {
+          success: 0,
+          message: errorCode['009']
+        };
         return
       }
-      if (existOne.email === formData.email) {
-        ctx.response.status = 500;
-        result.success = false
-        result.error = '013',
-          result.error_description = errorCode['013']
-        ctx.body = result
-        return
-      }
+ 
     } else {
-      //token 写入
 
-
-      const hmac = crypto.createHmac('sha256', config.secret_key)
-      let nowHmac = hmac.update(Date.now().toString())
-      let fHmac = nowHmac.digest('hex')
-      // config.secret_key = fHmac
-      console.log('token写入')
-      console.log(fHmac)
-
-
+      let salt = helper.makeSalt();
+      let hashedPassword = helper.encryptPassword(password, salt);
       let userResult = await userInfoService.create({
-        email: formData.email,
-        token: fHmac,
-        password: formData.password,
-        name: formData.userName,
-        create_time: new Date().getTime(),
-        level: 1,
+          userName: userName,
+          hashedPassword: hashedPassword,
+          salt: salt,
+          role: '',
+          createTime: moment().format('YYYY-MM-DD HH:mm:ss')
       })
 
       if (userResult && userResult.insertId * 1 > 0) {
         ctx.response.status = 200;
-        result.success = true
-        ctx.body = result
+        ctx.body = {
+          success: 1,
+          message: errorCode['000']
+        };
 
       } else {
         ctx.response.status = 500;
-        result.success = false
-        result.error = '002',
-          result.error_description = errorCode['002']
-        ctx.body = result
+        ctx.body = {
+          success: 0,
+          message: errorCode['002']
+        };
       }
 
     }
+  } catch (error) {
+    console.log(error);
+    ctx.response.status = 500;
+    ctx.body = {
+      success: 0,
+      message: errorCode['002']
+    };
+  }
 
   },
 

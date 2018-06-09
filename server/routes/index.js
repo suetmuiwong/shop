@@ -10,7 +10,7 @@
 
   
   router.use('/shopapi/user', user.routes(), user.allowedMethods());
-  //router.use('/shopapi/goods', goods.routes(), goods.allowedMethods());
+  router.use('/shopapi/goods', goods.routes(), goods.allowedMethods());
   //router.use('/shopapi/orders', orders.routes(), orders.allowedMethods());
   //router.use('/shopapi/appeal', appeal.routes(), appeal.allowedMethods());
 

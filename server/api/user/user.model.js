@@ -100,7 +100,7 @@ const user = {
 
     let _sql = `
     SELECT * from user
-      where email="${options.email}" or name="${options.name}"
+      where userName="${options.userName}"
       limit 1`
     let result = await dbUtils.query(_sql)
     if (Array.isArray(result) && result.length > 0) {
@@ -115,11 +115,11 @@ const user = {
    * 根据用户名和密码查找用户
    * @param  {object} options 用户名密码对象
    * @return {object|null}         查找结果
-   */
+   */ //let results = await ctx.execSql(`SELECT id, hashedPassword, salt FROM user WHERE role='ADMIN' and userName = ?`, userName);
   async getOneByUserNameAndPassword(options) {
     let _sql = `
     SELECT * from user
-      where password="${options.password}" and name="${options.name}"
+      where role='ADMIN' and userName="${options.name}"
       limit 1`
     let result = await dbUtils.query(_sql)
     if (Array.isArray(result) && result.length > 0) {

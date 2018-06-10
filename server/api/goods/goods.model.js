@@ -1,4 +1,4 @@
-const dbUtils = require('./../utils/db-util')
+const dbUtils = require('./../../utils/db-util')
 
 const goods = {
 
@@ -8,7 +8,7 @@ const goods = {
    * @return {object}       mysql执行结果
    */
   async create ( model ) {
-    let result = await dbUtils.insertData( 'goods_info', model )
+    let result = await dbUtils.insertData( 'goods', model )
     return result
   },
 
@@ -17,7 +17,7 @@ const goods = {
    */
 async getGoodsCount(options){
    
-  let result = await dbUtils.count('goods_info')
+  let result = await dbUtils.count('goods')
   return result
 
 },
@@ -30,7 +30,7 @@ async getGoodsCount(options){
    */
   async getGoodsList(options ) {
 
-    let result = await dbUtils.findAllDataByPage('goods_info','*', (options.start-1), options.limit)
+    let result = await dbUtils.findAllDataByPage('goods','*', (options.start-1), options.limit)
     return result
   },
 
@@ -44,7 +44,7 @@ async getGoodsCount(options){
    */
   async getGoodsDetail(options ) {
     let _sql = `
-    SELECT * from goods_info
+    SELECT * from goods
       where goodsId="${options.goodsId}"
       limit 1`
     let result = await dbUtils.query( _sql )

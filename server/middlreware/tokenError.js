@@ -8,13 +8,19 @@ const verify = util.promisify(jwt.verify);
  */
 module.exports = function () {
   return async function (ctx, next) {
+    
     try {
+      console.log('获取token')
+      //console.log(ctx.req)
       // 获取jwt
       const token = ctx.header.authorization; 
+      //const token = ctx.request.body.token; 
+      console.log(token)
       if (token) {
         try {
           // 解密payload，获取用户名和ID
           let payload = await verify(token.split(' ')[1], config.tokenSecret);
+          //let payload = await verify(token, config.tokenSecret);
           ctx.user = {
             name: payload.name,
             id: payload.id
@@ -25,6 +31,7 @@ module.exports = function () {
       }
       await next();
     } catch (err) {
+    
       if (err.status === 401) {
         ctx.status = 401;
         ctx.body = {

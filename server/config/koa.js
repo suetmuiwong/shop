@@ -17,9 +17,9 @@ const app = new Koa();
 
 //console.log('&&&&&&')
 //console.log(path.join(config.root, config.appPath))
-
-app.use(tokenError());
 app.use(bodyParser());
+app.use(tokenError());
+
 app.use(koaJson());
 //app.use(resource(path.join(config.root, config.appPath)));
 app.use(jwt({
@@ -29,3 +29,7 @@ app.use(jwt({
 }));
 
 module.exports = app;
+
+
+
+ 

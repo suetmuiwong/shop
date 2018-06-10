@@ -22,12 +22,12 @@
  
 
 #用户
-  # url:http://127.0.0:9000/shopapi/user/signIn 参数eg：userName = admin password = 123456  verify = abcd
-  # url:http://127.0.0:9000/shopapi/user/signUp 参数：userName password
+  # url:http://localhost:9000/shopapi/user/signIn 参数eg：userName = admin password = 123456  verify = abcd
+  # url:http://localhost:9000/shopapi/user/signUp 参数：userName password
 
 
 #获取商品列表接口
-  # url:http://127.0.0:9000/shopapi/user/signIn
+  # url:http://localhost:9000/shopapi/user/signIn
 
 
 

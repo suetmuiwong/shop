@@ -117,7 +117,8 @@ module.exports = {
           id: results.id
         };
         // 签发token
-        const token = jwt.sign(userToken, config.tokenSecret, { expiresIn: '2h' });
+        const token = jwt.sign(userToken, config.tokenSecret, { expiresIn: '600h' });
+        
         ctx.response.status = 200;
         ctx.body = {
           success: 1,

@@ -3,8 +3,8 @@
  */
 
 const validator = require('validator')
-const goodsModel = require('./../models/goods-info')
-const goodsCode = require('./../codes/error')
+const goodsModel = require('./goods.model')
+const goodsCode = require('./../../codes/error')
 
 const goods = {
 
@@ -22,7 +22,7 @@ const goods = {
    * 查询商品总条数
    */
   async getGoodsCount(){
-    let resultData = await goodsModel.getGoodsCount('goods_info')
+    let resultData = await goodsModel.getGoodsCount('goods')
     return resultData
   },
 

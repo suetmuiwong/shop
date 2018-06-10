@@ -44,12 +44,16 @@ app.use(cors({
   credentials:true
 }))
 
+//app.use(async ctx => {
+  //ctx.body = ctx.request.body;
+// });
+
 
 
  //app.use(async(ctx, next) => {
   // ctx.execSql = query;
   //ctx.set('Access-Control-Allow-Origin', config.accessControlAllowOrigin);
- // await next();
+ //await next();
 //});
 
 // routes

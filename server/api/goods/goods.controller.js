@@ -1,5 +1,5 @@
-const goodsInfoService = require('./../services/goods-info')
-const errorCode = require('./../codes/error')
+const goodsInfoService = require('./goods.service')
+const errorCode = require('./../../codes/error')
 
 module.exports = {
   /**
@@ -8,51 +8,57 @@ module.exports = {
    */
   async goodsList(ctx) {
 
-    let formData = ctx.request.body,
-    token = formData.token;
-
-
-    let session = ctx.session
-    let result = {}
-
-    const user = await base.checkToken(ctx, User, true)
-
-      //token: base.signToke(user)
-
-    if (ctx.session && ctx.session.isLogin && ctx.session.userName) {
-
-      let params = ctx.request.body
-      let formData = {
+    let params = ctx.request.body,
+      formData = {
         'start': params.start,
         'limit': params.limit
-      }
+      };
 
-      let goodsCount = await goodsInfoService.getGoodsCount() //商品总条数
-      let goodsListResult = await goodsInfoService.getGoodsList(formData) //总单个条数
+    console.log('---------')
+    console.log(ctx)
+    console.log(formData)
+
+    if (!params.start || !params.limit) {
+      ctx.response.status = 500;
+      ctx.body = {
+        success: 0,
+        message: errorCode['001']
+      };
+      return;
+    }
+
+
+    try {
+
+      let goodsCount = await goodsInfoService.getGoodsCount(), //商品总条数
+        goodsListResult = await goodsInfoService.getGoodsList(formData); //总单个条数
 
       if (goodsListResult) {
         ctx.response.status = 200;
-        result.success = true
-        result.count = goodsCount[0].total_count
-        result.list = goodsListResult
-        ctx.body = result
+        ctx.body = {
+          success: 1,
+          count: goodsCount[0].total_count,
+          list: goodsListResult
+        };
 
       } else {
         ctx.response.status = 500;
-        result.success = false
-        result.error = '001'
-        result.error_description = errorCode['001']
-        ctx.body = result
+        ctx.body = {
+          success: 0,
+          message: errorCode['001']
+        };
       }
 
-    } else {
-      ctx.response.status = 500;
-      result.success = false
-      result.error = '003'
-      result.error_description = errorCode['003']
-      ctx.body = result
 
+    } catch (error) {
+      console.log(error);
+      ctx.response.status = 500;
+      ctx.body = {
+        success: 0,
+        message: errorCode['002']
+      };
     }
+
 
   },
 
@@ -61,39 +67,49 @@ module.exports = {
    */
 
   async goodsDetail(ctx) {
-
-    let session = ctx.session
-    let result = {}
-
-    if (ctx.session && ctx.session.isLogin && ctx.session.userName) {
-      let params = ctx.request.body
-      let data = {
+    
+    let params = ctx.request.body,
+      data = {
         goodsId: params.goodsId
-      }
-      let goodsDetail = await goodsInfoService.getGoodsDetail(data)
+      };
+
+    if (!params.goodsId) {
+      ctx.response.status = 500;
+      ctx.body = {
+        success: 0,
+        message: errorCode['001']
+      };
+      return;
+    }
+
+    try {
+
+      let goodsDetail = await goodsInfoService.getGoodsDetail(data);
 
       if (goodsDetail) {
         ctx.response.status = 200;
-        result.success = true
-        result.list = goodsDetail
-        ctx.body = result
+        ctx.body = {
+          success: 1,
+          list: goodsDetail
+        };
 
       } else {
         ctx.response.status = 500;
-        result.success = false
-        result.error = '001'
-        result.error_description = errorCode['001']
-        ctx.body = result
+        ctx.body = {
+          success: 0,
+          message: errorCode['001']
+        };
       }
 
-    } else {
-      ctx.response.status = 500;
-      result.success = false
-      result.error = '003'
-      result.error_description = errorCode['003']
-      ctx.body = result
-    }
 
+    } catch (error) {
+      console.log(error);
+      ctx.response.status = 500;
+      ctx.body = {
+        success: 0,
+        message: errorCode['002']
+      };
+    }
 
   }
 

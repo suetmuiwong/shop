@@ -5,11 +5,11 @@ const config = {
   database: {
     DATABASE: 'shop',
     USERNAME: 'root',
-    //PASSWORD: '123456',
-   PASSWORD: '759547235',
+    PASSWORD: '123456',
+    //PASSWORD: '759547235',
     PORT: '3306',
-    //HOST: 'localhost'
-    HOST: '192.168.219.131'
+    HOST: 'localhost'
+    //HOST: '192.168.219.131'
   },
   port: 9000,
   tokenSecret: 'test',//以下为新增的配置

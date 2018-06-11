@@ -37,12 +37,17 @@ app.use(session({
 
 //允许跨域
 // app.use(cors())
-app.use(cors({
-  origin: function (ctx) {
-      return ctx.header.origin 
-  },
-  credentials:true
-}))
+// app.use(cors({
+//   origin: function (ctx) {
+//       return ctx.header.origin 
+//   },
+//   credentials:true
+// }))
+
+
+
+
+
 
 //app.use(async ctx => {
   //ctx.body = ctx.request.body;
@@ -74,6 +79,7 @@ app.on('error', (error, ctx) => {
   console.log('something error ' + JSON.stringify(ctx.onerror));
   ctx.redirect('/500.html');
 })
+
 
 const server = http.createServer(app.callback())
 	.listen(config.port)

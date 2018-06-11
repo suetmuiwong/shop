@@ -14,10 +14,6 @@ module.exports = {
         'limit': params.limit
       };
 
-    console.log('---------')
-    console.log(ctx)
-    console.log(formData)
-
     if (!params.start || !params.limit) {
       ctx.response.status = 500;
       ctx.body = {
@@ -69,10 +65,11 @@ module.exports = {
   async goodsDetail(ctx) {
     
     let params = ctx.request.body,
+
       data = {
         goodsId: params.goodsId
       };
-
+    
     if (!params.goodsId) {
       ctx.response.status = 500;
       ctx.body = {
@@ -97,7 +94,7 @@ module.exports = {
         ctx.response.status = 500;
         ctx.body = {
           success: 0,
-          message: errorCode['001']
+          message: errorCode['018']
         };
       }
 

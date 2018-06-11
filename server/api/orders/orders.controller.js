@@ -113,8 +113,6 @@ module.exports = {
      */
 
     async orderDetail(ctx) {
-
-
         let params = ctx.request.body,
             data = {
                 orderId: params.orderId
@@ -128,7 +126,6 @@ module.exports = {
             };
             return;
         }
-
 
         try {
             let orderDetail = await orderInfoService.getorderDetail(data)
@@ -144,7 +141,7 @@ module.exports = {
                 ctx.response.status = 500;
                 ctx.body = {
                     success: 0,
-                    message: errorCode['001']
+                    message: errorCode['019']
                 };
             }
 
@@ -171,7 +168,6 @@ module.exports = {
             data = {
                 orderId: params.orderId
             }
-
         if (!params.orderId) {
             ctx.response.status = 500;
             ctx.body = {
@@ -226,8 +222,6 @@ module.exports = {
      */
 
     async setOrder(ctx) {
-
-
         let params = ctx.request.body,
             data = {
                 goodsId: params.goodsId,
@@ -236,7 +230,7 @@ module.exports = {
                 realTotalMoney: params.realTotalMoney,
             }
 
-        if (!params.goodsId || params.goodsCount || params.totalMoney || params.realTotalMoney) {
+        if (!params.goodsId || !params.goodsCount || !params.totalMoney || !params.realTotalMoney) {
             ctx.response.status = 500;
             ctx.body = {
                 success: 0,
@@ -251,8 +245,16 @@ module.exports = {
         let orderNo = timestamp + data.goodsId
 
         //查询当前创建订单的商品的详情信息
-        let goodInfo = await orderInfoService.getGoodinfo(data.goodsId),
-            optionData = {
+        let goodInfo = await orderInfoService.getGoodinfo(data.goodsId);
+        if (goodInfo == false) {
+            ctx.response.status = 500;
+            ctx.body = {
+                success: 0,
+                message: errorCode['018']
+            };
+            return;
+        }
+         let optionData = {
                 orderNo: orderNo,
                 orderStatus: '1',
                 totalMoney: data.totalMoney,
@@ -264,7 +266,6 @@ module.exports = {
                 orderTime: timestamp,
                 payType: '1'
             };
-
 
         try {
             let setOrder = await orderInfoService.setOrder(optionData)
@@ -280,7 +281,7 @@ module.exports = {
                 ctx.response.status = 500;
                 ctx.body = {
                     success: 0,
-                    message: errorCode['001']
+                    message: errorCode['020']
                 };
             }
 

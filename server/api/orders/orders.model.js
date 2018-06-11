@@ -20,19 +20,18 @@ const order = {
    */
   async getOrderCount(options) {
 
-    let result = await dbUtils.count('order')
-
+    let result = await dbUtils.count('orders')
     return result
 
   },
 
   async getunOrderCount(options) {
-    let result = await dbUtils.someCount('order', 'orderStatus', '1')
+    let result = await dbUtils.someCount('orders', 'orderStatus', '1')
     return result
   },
 
   async gethasOrderCount(options) {
-    let result = await dbUtils.someCount('order', 'orderStatus', '2')
+    let result = await dbUtils.someCount('orders', 'orderStatus', '2')
     return result
   },
 
@@ -45,11 +44,11 @@ const order = {
   async getOrderList(options) {
 
     if (options.status == '0') {
-      let result = await dbUtils.findAllDataByPage('order', '*', (options.start - 1), options.limit)
+      let result = await dbUtils.findAllDataByPage('orders', '*', (options.start - 1), options.limit)
       return result
 
     } else {
-      let result = await dbUtils.findDataByPage('order', '*', 'orderStatus', options.status, (options.start - 1), options.limit)
+      let result = await dbUtils.findDataByPage('orders', '*', 'orderStatus', options.status, (options.start - 1), options.limit)
       return result
     }
 
@@ -63,7 +62,7 @@ const order = {
    */
   async getorderDetail(options) {
     let _sql = `
-    SELECT * from order_info
+    SELECT * from orders
       where orderId="${options.orderId}"
       limit 1`
     let result = await dbUtils.query(_sql)
@@ -81,7 +80,7 @@ const order = {
    * @return {object|null}        查找结果
    */
   async deleteOrder(options) {
-    let result = await dbUtils.deleteDataById('order', 'orderId', options.orderId )
+    let result = await dbUtils.deleteDataById('orders', 'orderId', options.orderId )
     return result
 
   },
@@ -97,7 +96,7 @@ const order = {
     return result
   },
   async setOrder(options) {
-    let result = await dbUtils.insertData('order', options)
+    let result = await dbUtils.insertData('orders', options)
     return result
   }
 

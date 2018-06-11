@@ -94,7 +94,7 @@ module.exports = {
                 ctx.response.status = 500;
                 ctx.body = {
                     success: 0,
-                    message: errorCode['001']
+                    message: errorCode['021']
                 };
             }
         } catch (error) {
@@ -133,11 +133,11 @@ module.exports = {
         try {
 
             let deleteAppeal = await appealInfoService.deleteAppeal(data)
-            if (appealDetail) {
+            if (deleteAppeal) {
                 ctx.response.status = 200;
                 ctx.body = {
                     success: 1,
-                    data: appealDetail
+                    data: deleteAppeal
                 };
 
                 if (deleteAppeal.affectedRows == '1') { //判断是否删除成功
@@ -162,7 +162,7 @@ module.exports = {
                 ctx.response.status = 500;
                 ctx.body = {
                     success: 0,
-                    message: errorCode['001']
+                    message: errorCode['021']
                 };
             }
         } catch (error) {
@@ -184,15 +184,15 @@ module.exports = {
 
     async setAppeal(ctx) {
         let params = ctx.request.body,
-        data = {
-            appealOrder: params.appealOrder,
-            appealType: params.appealType,
-            appealDes: params.appealDes,
-            appealManageStatus: params.appealManageStatus,
-            appealContact: params.appealContact,
-        }
+            data = {
+                appealOrder: params.appealOrder,
+                appealType: params.appealType,
+                appealDes: params.appealDes,
+                appealManageStatus: params.appealManageStatus,
+                appealContact: params.appealContact,
+            }
 
-        if (!params.appealOrder || !params.appealType ||params.appealDes || params.appealManageStatus || params.appealContact  ) {
+        if (!params.appealOrder || !params.appealType || !params.appealDes || !params.appealManageStatus || !params.appealContact) {
             ctx.response.status = 500;
             ctx.body = {
                 success: 0,
@@ -219,7 +219,7 @@ module.exports = {
                 ctx.response.status = 200;
                 ctx.body = {
                     success: 1,
-                    data:  {
+                    data: {
                         appealId: setAppeal.insertId
                     }
                 };

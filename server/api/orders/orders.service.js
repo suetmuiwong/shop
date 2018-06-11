@@ -14,12 +14,12 @@ const order = {
    * 查询已支付订单总条数
    */
   async getOrderCount(){
-    let resultData = await orderModel.getOrderCount('order')
+    let resultData = await orderModel.getOrderCount('orders')
     return resultData
   },
 
   async getunOrderCount(){
-    let resultData = await orderModel.getunOrderCount('order')
+    let resultData = await orderModel.getunOrderCount('orders')
     return resultData
   },
   

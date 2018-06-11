@@ -10,12 +10,8 @@ module.exports = function () {
   return async function (ctx, next) {
     
     try {
-      console.log('获取token')
-      //console.log(ctx.req)
       // 获取jwt
       const token = ctx.header.authorization; 
-      //const token = ctx.request.body.token; 
-      console.log(token)
       if (token) {
         try {
           // 解密payload，获取用户名和ID
@@ -31,7 +27,7 @@ module.exports = function () {
       }
       await next();
     } catch (err) {
-    
+      console.log(err)
       if (err.status === 401) {
         ctx.status = 401;
         ctx.body = {

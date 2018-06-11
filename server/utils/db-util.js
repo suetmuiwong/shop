@@ -64,9 +64,6 @@ let insertData = function( table, values ) {
 
 let updateData = function( table, keys, values, id ) {
   let _sql = "UPDATE ?? SET ? = ? WHERE id = ?"
-  console.log('222222222')
-  console.log(values)
-  console.log(id)
 
   //UPDATE user SET hashedPassword = ? WHERE id = ?
   return query( _sql, [ table,keys,values, id ] )

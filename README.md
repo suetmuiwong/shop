@@ -14,6 +14,7 @@
     # 启动服务 命令 npm run start_server
 
 #项目目录
+
     #init //数据库相关文件夹
         #sql //表文件夹
             #appeals.sql //申诉表
@@ -72,9 +73,11 @@
     #package.json
 
 #接口访问地址
+
     # http://127.0.0:9000/shopapi/
 
 #用户
+
     # url:http://localhost:9000/shopapi/user/signInPin get //获取图片验证码
     # url:http://localhost:9000/shopapi/user/signIn post 
         #参数:userName:用户名， password：密码  verify 验证码 eg(admin,123456,abcdef)
@@ -82,12 +85,14 @@
         #参数：userName password
   
 #商品
+
     # url:http://localhost:9000/shopapi/goods/goodsList post 
         #参数：pageIndex:第几页，start:每页开始的数据顺序，limit：每条的数据条数
     # url http://localhost:9000/shopapi/goods/goodsDetail post 
         #参数：goodsId:商品id
 
 #订单
+
     # url:http://localhost:9000/shopapi/orders/orderList post
         #参数：status:订单状态(0全部,1已支付,2未支付),pageIndex:第几页，start:每页开始的数据顺序，limit：每条的数据条数
     # url:http://localhost:9000/shopapi/orders/orderDetail post
@@ -98,6 +103,7 @@
         #参数：orderId：订单id
 
 #申诉 
+
     # url:http://localhost:9000/shopapi/appeal/appealList post
         #参数：pageIndex:第几页，start:每页开始的数据顺序，limit：每条的数据条数
     # url:http://localhost:9000/shopapi/appeal/appealDetail post
@@ -106,6 +112,7 @@
         #参数：appealOrder:申诉的订单号, appealType: 申诉类型（1.2.3.4）, appealDes:申诉描述,appealManageStatus: 申诉处理状态, appealContact: 申诉人联系方式,
 
 #特别的
+
     #使用jwt创建token，在登录验证成功后，签发token返回到客户端（客户端保存在token中），需要验证的接口，对token进行验证
         #规定需要验证与非验证的接口：
             #app.use(jwt({

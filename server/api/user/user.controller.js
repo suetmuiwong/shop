@@ -11,7 +11,6 @@ const ccap = require('ccap')();
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
-//const config = require('../../config')
 
 
 module.exports = {
@@ -41,51 +40,6 @@ module.exports = {
    */
 
   async signIn(ctx) {
-
-    // let formData = ctx.request.body
-    // let result = {}
-    // let userResult = await userInfoService.signIn(formData)
-    // console.log('444444')
-    // console.log(ctx.session)
-    // console.log(ctx.session.captcha.toUpperCase())
-    // console.log(formData.pin.toUpperCase())
-
-    // if (ctx.session.captcha.toUpperCase() == formData.pin.toUpperCase()) {
-
-    //   if (userResult) {
-    //     if (formData.userName === userResult.name) {
-    //       //新增获取session登录成功返回token
-    //       let userResult = await userInfoService.signIn(formData)
-    //       const token = base.signToke(user)
-    //       ctx.response.status = 200;
-    //       result.success = true;
-    //       result.token = token;
-
-    //       ctx.session.isLogin = true
-    //       ctx.session.userName = userResult.name
-    //       ctx.session.userId = userResult.id
-
-    //       ctx.body = result
-    //     } else {
-    //       ctx.response.status = 500;
-    //       result.error = '008'
-    //       result.error_description = errorCode['008']
-    //       ctx.body = result
-    //     }
-    //   } else {
-    //     ctx.response.status = 500;
-    //     result.error = '006',
-    //       result.error_description = errorCode['006']
-    //     ctx.body = result
-    //   }
-
-    // } else {
-    //   ctx.response.status = 500;
-    //   result.error = '017',
-    //     result.error_description = errorCode['017']
-    //   ctx.body = result
-    // }
-
 
     let formData = ctx.request.body,
     userName = formData.userName,
@@ -223,38 +177,8 @@ module.exports = {
     };
   }
 
-  },
-
-  /**
-   * 获取用户的token信息
-   * @param    {obejct} ctx 上下文对象
-   */
-  async getUserToken(ctx) {
-
-    let session = ctx.session
-    console.log('测试session')
-    console.log(session)
-    let isLogin = session.isLogin
-    let userName = session.userName
-    let result = {
-      success: false,
-      message: '',
-      data: null,
-    }
-    if (isLogin === true && userName) {
-      let userInfo = await userInfoService.getUserInfoByUserName(userName)
-      if (userInfo) {
-        result.data = userInfo
-        result.success = true
-      } else {
-        result.message = errorCode.FAIL_USER_NO_LOGIN
-      }
-    } else {
-      // TODO
-    }
-
-    ctx.body = result
   }
+
 
 
 }

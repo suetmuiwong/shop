@@ -16,8 +16,7 @@ if (config.isUpdateAdmin) {
 
 const app = new Koa();
 
-//console.log('&&&&&&')
-//console.log(path.join(config.root, config.appPath))
+
 app.use(bodyParser());
 
 app.use(cors({
@@ -34,12 +33,8 @@ app.use(cors({
   allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }))
 
-
-
 app.use(tokenError());
-
 app.use(koaJson());
-//app.use(resource(path.join(config.root, config.appPath)));
 app.use(jwt({
   secret: config.tokenSecret
 }).unless({ //不用验证的接口

@@ -7,14 +7,6 @@ const userModel = require('./user.model')
 const userCode = require('./../../codes/error')
 
 const user = {
-  /**
-   * 获取token值
-   * @param pin 当前验证码
-   */
-  async getToken(pin){
-    let result = await userModel.getExistToken(pin);
-    return result;
-  },
 
   /**
    * 创建用户

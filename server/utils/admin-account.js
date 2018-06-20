@@ -25,7 +25,6 @@ exports.saveAdminAccount = async function () {
             role: 'ADMIN',
             createTime: moment().format('YYYY-MM-DD HH:mm:ss')
           };
-          //await dbUtils(`INSERT INTO user SET ?`, newAdmin);
           await dbUtils.insertData('user', newAdmin);
     }
 
